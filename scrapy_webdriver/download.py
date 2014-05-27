@@ -7,7 +7,7 @@ from scrapy.exceptions import IgnoreRequest
 
 from .http import WebdriverActionRequest, WebdriverRequest, WebdriverResponse
 
-FALLBACK_HANDLER = 'scrapy.core.downloader.handlers.http10.HTTP10DownloadHandler'
+FALLBACK_HANDLER = 'scrapy.core.downloader.handlers.http10.HTTP10DownloadHandler'  # NOQA
 
 class WebdriverTimeout(Exception):
     pass
