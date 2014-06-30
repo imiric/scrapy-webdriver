@@ -1,13 +1,17 @@
 import signal
 
-from scrapy import log
+from scrapy import log, version_info
 from scrapy.utils.decorator import inthread
 from scrapy.utils.misc import load_object
 from scrapy.exceptions import IgnoreRequest
 
 from .http import WebdriverActionRequest, WebdriverRequest, WebdriverResponse
 
-FALLBACK_HANDLER = 'scrapy.core.downloader.handlers.http10.HTTP10DownloadHandler'  # NOQA
+if map(int, version_info) < [0, 18]:
+    FALLBACK_HANDLER = 'http.HttpDownloadHandler'
+else:
+    FALLBACK_HANDLER = 'http10.HTTP10DownloadHandler'
+FALLBACK_HANDLER = 'scrapy.core.downloader.handlers.%s' % FALLBACK_HANDLER
 
 class WebdriverTimeout(Exception):
     pass
