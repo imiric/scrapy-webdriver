@@ -3,7 +3,7 @@ import inspect
 from collections import deque
 from threading import Lock
 
-from scrapy.signals import engine_stopped
+from scrapy.signals import engine_stopped, spider_closed
 from scrapy_webdriver.http import WebdriverRequest, WebdriverActionRequest
 from selenium import webdriver
 
@@ -36,6 +36,7 @@ class WebdriverManager(object):
             self._browser = self._browser
         else:
             self._webdriver = self._browser
+        self.crawler.signals.connect(self._cleanup, signal=spider_closed)
 
     @property
     def _desired_capabilities(self):
